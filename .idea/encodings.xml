@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-file/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-file/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-job/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-tenant/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-api/saas-api-tenant/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-cache/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-datascope/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-datascope/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-datasource/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-datasource/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-log/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-log/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-redis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-redis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-security/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-swagger/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-swagger/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-common/saas-common-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-file/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-file/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-gen/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-gen/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-job/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-tenant/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-modules/saas-tenant/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-visual/saas-monitor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saas-visual/saas-monitor/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

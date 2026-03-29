@@ -1,0 +1,11 @@
+# macOS metadata
+.DS_Store
+
+# Local Docker environment
+docker/
+
+# IntelliJ SonarLint cache
+.idea/sonarlint/
+
+# Maven build output
+target/

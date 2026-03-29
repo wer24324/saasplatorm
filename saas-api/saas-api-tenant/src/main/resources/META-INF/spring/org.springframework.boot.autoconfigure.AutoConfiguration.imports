@@ -1,0 +1,3 @@
+com.audit.tenant.api.source.feign.factory.RemoteSourceFallbackFactory
+com.audit.tenant.api.tenant.feign.factory.RemoteStrategyFallbackFactory
+com.audit.tenant.api.tenant.feign.factory.RemoteTenantFallbackFactory

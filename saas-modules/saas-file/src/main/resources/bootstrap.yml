@@ -1,0 +1,46 @@
+# Tomcat
+server:
+  port: 9300
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: saas-file
+  profiles:
+    # 环境配置
+    active: dev
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 100MB
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: localhost:28848
+      config:
+        # 配置中心地址
+        server-addr: localhost:28848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - application-secret-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+file:
+  domain: http://127.0.0.1:9300
+  path: ./saas/uploadPath
+  prefix: /statics
+fdfs:
+  domain: http://8.129.231.12
+  soTimeout: 3000
+  connectTimeout: 2000
+  trackerList: 8.129.231.12:22122
+
+# Minio配置
+minio:
+  url: http://8.129.231.12:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucketName: test

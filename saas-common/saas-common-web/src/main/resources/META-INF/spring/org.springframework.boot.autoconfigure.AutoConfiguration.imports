@@ -1,0 +1,5 @@
+com.audit.common.web.config.properties.TenantProperties
+com.audit.common.web.config.SaasMyBatisPlusConfig
+com.audit.common.web.handler.SaasMetaObjectHandler
+com.audit.common.web.handler.TenantLineHandler
+com.audit.common.web.aspect.AutoInjectAspect

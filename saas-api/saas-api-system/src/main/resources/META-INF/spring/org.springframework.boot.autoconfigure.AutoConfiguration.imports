@@ -1,0 +1,8 @@
+com.audit.system.api.organize.feign.factory.RemoteDeptFallbackFactory
+com.audit.system.api.organize.feign.factory.RemotePostFallbackFactory
+com.audit.system.api.organize.feign.factory.RemoteUserFallbackFactory
+com.audit.system.api.authority.feign.factory.RemoteLoginFallbackFactory
+com.audit.system.api.authority.feign.factory.RemoteMenuFallbackFactory
+com.audit.system.api.authority.feign.factory.RemoteAuthFallbackFactory
+com.audit.system.api.dict.feign.factory.RemoteConfigFallbackFactory
+com.audit.system.api.log.feign.factory.RemoteLogFallbackFactory

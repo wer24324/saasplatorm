@@ -1,0 +1,21 @@
+package ${packageName}.domain.dto;
+
+import ${packageName}.domain.po.${ClassName}Po;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+
+
+/**
+ * ${functionName} 数据传输对象
+ *
+ * @author ${author}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ${ClassName}Dto extends ${ClassName}Po {
+
+
+    private static final long serialVersionUID = 1L;
+
+}

@@ -1,0 +1,20 @@
+package ${packageName}.domain.query;
+
+import ${packageName}.domain.po.${ClassName}Po;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+
+
+/**
+ * ${functionName} 数据查询对象
+ *
+ * @author ${author}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ${ClassName}Query extends ${ClassName}Po {
+
+
+    private static final long serialVersionUID = 1L;
+}

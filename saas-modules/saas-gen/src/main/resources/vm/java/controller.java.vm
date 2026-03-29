@@ -1,0 +1,222 @@
+package ${packageName}.controller;
+
+#if($table.base)
+#set($Entity="Base")
+#elseif($table.tree)
+#set($Entity="Tree")
+#end
+import result.web.com.audit.common.core.AjaxResult;
+import validate.web.com.audit.common.core.V_A;
+import validate.web.com.audit.common.core.V_E;
+import com.audit.common.log.annotation.Log;
+import com.audit.common.log.enums.BusinessType;
+#if($api.editStatus)
+import com.audit.common.security.annotation.Logical;
+#end
+import com.audit.common.security.annotation.RequiresPermissions;
+import com.audit.common.web.entity.controller.${Entity}Controller;
+import ${packageName}.domain.dto.${ClassName}Dto;
+import ${packageName}.domain.query.${ClassName}Query;
+import ${packageName}.service.I${ClassName}Service;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+#if($api.export)
+import javax.servlet.http.HttpServletResponse;
+#end
+#if($api.getInfo)
+import java.io.Serializable;
+#end
+#if($api.batchRemove)
+import java.util.List;
+#end
+
+/**
+ * ${functionName}管理 业务处理
+ *
+ * @author ${author}
+ */
+@RestController
+@RequestMapping("/${businessName}")
+public class ${ClassName}Controller extends ${Entity}Controller<${ClassName}Query, ${ClassName}Dto, I${ClassName}Service> {
+
+    /** 定义节点名称 */
+    @Override
+    protected String getNodeName() {
+        return "${functionName}" ;
+    }
+#if($api.cache)
+
+    /**
+     * 刷新${functionName}缓存 | 内部调用
+     */
+    @Override
+    @InnerAuth
+    @GetMapping("/inner/refresh")
+    @Log(title = "${functionName}管理", businessType = BusinessType.REFRESH)
+    public R<Boolean> refreshCacheInner() {
+        return super.refreshCacheInner();
+    }
+
+    /**
+     * 刷新${functionName}缓存
+     */
+    @Override
+    @RequiresPermissions(Auth.${ClASS_NAME}_CACHE)
+    @Log(title = "${functionName}管理", businessType = BusinessType.REFRESH)
+    @GetMapping("/refresh")
+    public AjaxResult refreshCache() {
+        return super.refreshCache();
+    }
+#end
+#if($api.list)
+
+    /**
+     * 查询${functionName}列表
+     */
+    @Override
+    @GetMapping("/list")
+    @RequiresPermissions(Auth.${ClASS_NAME}_LIST)
+    public AjaxResult list(${ClassName}Query ${classNameNoPrefix}) {
+        return super.list(${classNameNoPrefix});
+    }
+#if($table.tree)
+
+    /**
+     * 查询${functionName}列表（排除节点）
+     */
+    @GetMapping("/list/exclude")
+    @RequiresPermissions(Auth.${ClASS_NAME}_LIST)
+    public AjaxResult listExNodes(${ClassName}Query ${classNameNoPrefix}) {
+        return super.listExNodes(${classNameNoPrefix});
+    }
+#end
+#end
+#if($api.getInfo)
+
+    /**
+     * 查询${functionName}详细
+     */
+    @Override
+    @GetMapping(value = "/{id}")
+    @RequiresPermissions(Auth.${ClASS_NAME}_SINGLE)
+    public AjaxResult getInfo(@PathVariable Serializable id) {
+        return super.getInfo(id);
+    }
+#end
+#if($api.export)
+
+    /**
+     * ${functionName}导出
+     */
+    @Override
+    @PostMapping("/export")
+    @RequiresPermissions(Auth.${ClASS_NAME}_EXPORT)
+    @Log(title = "${functionName}管理", businessType = BusinessType.EXPORT)
+    public void export(HttpServletResponse response, ${ClassName}Query ${classNameNoPrefix}) {
+        super.export(response, ${classNameNoPrefix});
+    }
+#end
+#if($api.add)
+
+    /**
+     * ${functionName}新增
+     */
+    @Override
+    @PostMapping
+    @RequiresPermissions(Auth.${ClASS_NAME}_ADD)
+    @Log(title = "${functionName}管理", businessType = BusinessType.INSERT)
+    public AjaxResult add(@Validated({V_A.class}) @RequestBody ${ClassName}Dto ${classNameNoPrefix}) {
+        return super.add(${classNameNoPrefix});
+    }
+#end
+#if($api.edit)
+
+    /**
+     * ${functionName}修改
+     */
+    @Override
+    @PutMapping
+    @RequiresPermissions(Auth.${ClASS_NAME}_EDIT)
+    @Log(title = "${functionName}管理", businessType = BusinessType.UPDATE)
+    public AjaxResult edit(@Validated({V_E.class}) @RequestBody ${ClassName}Dto ${classNameNoPrefix}) {
+        return super.edit(${classNameNoPrefix});
+    }
+#end
+#if($api.editStatus)
+
+    /**
+     * ${functionName}修改状态
+     */
+    @Override
+    @PutMapping("/status")
+    @RequiresPermissions(value = {Auth.${ClASS_NAME}_EDIT, Auth.${ClASS_NAME}_ES}, logical = Logical.OR)
+    @Log(title = "${functionName}管理", businessType = BusinessType.UPDATE_STATUS)
+    public AjaxResult editStatus(@RequestBody ${ClassName}Dto ${classNameNoPrefix}) {
+        return super.editStatus(${classNameNoPrefix});
+    }
+#end
+#if($api.batchRemove)
+
+    /**
+     * ${functionName}批量删除
+     */
+    @Override
+    @DeleteMapping("/batch/{idList}")
+    @RequiresPermissions(Auth.${ClASS_NAME}_DEL)
+    @Log(title = "${functionName}管理", businessType = BusinessType.DELETE)
+    public AjaxResult batchRemove(@PathVariable List<Long> idList) {
+        return super.batchRemove(idList);
+    }
+#end
+#if($api.list)
+
+    /**
+     * 获取${functionName}选择框列表
+     */
+    @Override
+    @GetMapping("/option")
+    public AjaxResult option() {
+        return super.option();
+    }
+#end
+
+    interface Auth {
+    #if($api.list)
+        /** 系统 - ${functionName}管理 - 列表 */
+        String ${ClASS_NAME}_LIST = "${authorityName}:${businessName}:list";
+    #end
+    #if($api.getInfo)
+        /** 系统 - ${functionName}管理 - 详情 */
+        String ${ClASS_NAME}_SINGLE = "${authorityName}:${businessName}:single";
+    #end
+    #if($api.add)
+        /** 系统 - ${functionName}管理 - 新增 */
+        String ${ClASS_NAME}_ADD = "${authorityName}:${businessName}:add";
+    #end
+    #if($api.edit)
+        /** 系统 - ${functionName}管理 - 修改 */
+        String ${ClASS_NAME}_EDIT = "${authorityName}:${businessName}:edit";
+    #end
+    #if($api.editStatus)
+        /** 系统 - ${functionName}管理 - 修改状态 */
+        String ${ClASS_NAME}_ES = "${authorityName}:${businessName}:es";
+    #end
+    #if($api.batchRemove)
+        /** 系统 - ${functionName}管理 - 删除 */
+        String ${ClASS_NAME}_DEL = "${authorityName}:${businessName}:delete";
+    #end
+    #if($api.import)
+        /** 系统 - ${functionName}管理 - 导入 */
+        String ${ClASS_NAME}_IMPORT = "${authorityName}:${businessName}:import";
+    #end
+    #if($api.export)
+        /** 系统 - ${functionName}管理 - 导出 */
+        String ${ClASS_NAME}_EXPORT = "${authorityName}:${businessName}:export";
+    #end
+    #if($api.export)
+        /** 系统 - ${functionName}管理 - 缓存 */
+        String ${ClASS_NAME}_CACHE = "${authorityName}:${businessName}:cache";
+    #end
+    }
+}

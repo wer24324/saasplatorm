@@ -1,0 +1,37 @@
+package ${packageName}.service.impl;
+
+#if($table.base)
+#set($Entity="Base")
+#elseif($table.tree)
+#set($Entity="Tree")
+#end
+import ${packageName}.domain.dto.${ClassName}Dto;
+import ${packageName}.domain.query.${ClassName}Query;
+import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.manager.I${ClassName}Manager;
+import com.audit.common.web.entity.service.impl.${Entity}ServiceImpl;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * ${functionName}管理 服务层处理
+ *
+ * @author ${author}
+ */
+@Service
+public class ${ClassName}ServiceImpl extends ${Entity}ServiceImpl<${ClassName}Query, ${ClassName}Dto, I${ClassName}Manager> implements I${ClassName}Service {
+
+    /**
+     * 查询${functionName}对象列表 | 数据权限
+     *
+     * @param ${classNameNoPrefix} ${functionName}对象
+     * @return ${functionName}对象集合
+     */
+    @Override
+    //@DataScope(userAlias = "createBy", mapperScope = {"${ClassName}Mapper"})
+    public List<${ClassName}Dto> selectListScope(${ClassName}Query ${classNameNoPrefix}) {
+        return baseManager.selectList(${classNameNoPrefix});
+    }
+
+}

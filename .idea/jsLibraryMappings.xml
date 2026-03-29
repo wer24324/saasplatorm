@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <excludedPredefinedLibrary name="saas/__MACOSX/multi-ui/internal/eslint-config/node_modules" />
+    <excludedPredefinedLibrary name="saas/__MACOSX/multi-ui/internal/stylelint-config/node_modules" />
+    <excludedPredefinedLibrary name="saas/__MACOSX/multi-ui/internal/ts-config/node_modules" />
+    <excludedPredefinedLibrary name="saas/__MACOSX/multi-ui/internal/vite-config/node_modules" />
+    <excludedPredefinedLibrary name="saas/__MACOSX/multi-ui/node_modules" />
+    <excludedPredefinedLibrary name="saas/__MACOSX/multi-ui/packages/hooks/node_modules" />
+    <excludedPredefinedLibrary name="saas/__MACOSX/xueyi-ui/node_modules" />
+  </component>
+</project>

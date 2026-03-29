@@ -1,0 +1,274 @@
+package com.audit.system.authority.controller;
+
+import com.audit.common.core.constant.basic.BaseConstants;
+import com.audit.common.core.constant.basic.ServiceConstants;
+import com.audit.common.core.constant.system.AuthorityConstants;
+import com.audit.common.core.utils.TreeUtil;
+import com.audit.common.core.utils.core.CollUtil;
+import com.audit.common.core.utils.core.ObjectUtil;
+import com.audit.common.core.utils.core.StrUtil;
+import com.audit.common.core.web.result.AjaxResult;
+import com.audit.common.core.web.result.R;
+import com.audit.common.core.web.validate.V_A;
+import com.audit.common.core.web.validate.V_E;
+import com.audit.common.log.annotation.Log;
+import com.audit.common.log.enums.BusinessType;
+import com.audit.common.security.annotation.InnerAuth;
+import com.audit.common.security.annotation.Logical;
+import com.audit.common.security.annotation.RequiresPermissions;
+import com.audit.common.security.auth.Auth;
+import com.audit.common.security.service.TokenService;
+import com.audit.common.security.utils.SecurityUtils;
+import com.audit.common.web.entity.controller.TreeController;
+import com.audit.system.api.authority.domain.dto.SysMenuDto;
+import com.audit.system.api.authority.domain.dto.SysModuleDto;
+import com.audit.system.api.authority.domain.query.SysMenuQuery;
+import com.audit.system.authority.service.ISysMenuService;
+import com.audit.system.authority.service.ISysModuleService;
+import com.audit.system.utils.cloud.CRouteUtils;
+import com.audit.system.utils.multi.MRouteUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+/**
+ * 菜单管理 业务处理
+ *
+ * @author zerozhang
+ */
+@RestController
+@RequestMapping("/menu")
+public class SysMenuController extends TreeController<SysMenuQuery, SysMenuDto, ISysMenuService> {
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private ISysModuleService moduleService;
+
+    /**
+     * 定义节点名称
+     */
+    @Override
+    protected String getNodeName() {
+        return "菜单";
+    }
+
+    /**
+     * 定义父数据名称
+     */
+    protected String getParentName() {
+        return "模块";
+    }
+
+    /**
+     * 获取当前节点及其祖籍信息 | 内部调用
+     */
+    @InnerAuth
+    @GetMapping("/inner/{id}")
+    public R<SysMenuDto> getInfoInner(@PathVariable Serializable id) {
+        return R.ok(baseService.selectById(id));
+    }
+
+    /**
+     * 获取路由信息
+     */
+    @GetMapping("/getCloudRouters/{moduleId}")
+    public AjaxResult getCloudRouters(@PathVariable Long moduleId) {
+        Map<String, Object> menuMap = tokenService.getMenuRoute();
+        String moduleKey = ServiceConstants.FromSource.CLOUD.getCode() + moduleId;
+        if (ObjectUtil.isNull(menuMap) || ObjectUtil.isNull(menuMap.get(moduleKey))) {
+            List<SysMenuDto> menus = baseService.getRoutes(moduleId);
+            if (ObjectUtil.isNull(menuMap)) menuMap = new HashMap<>();
+            menuMap.put(moduleKey, CRouteUtils.buildMenus(TreeUtil.buildTree(menus)));
+            tokenService.setMenuRoute(menuMap);
+        }
+        return success(menuMap.get(moduleKey));
+    }
+
+    /**
+     * 获取路由信息
+     */
+    @GetMapping("/getMultiRouters/{moduleId}")
+    public AjaxResult getMultiRouters(@PathVariable Long moduleId) {
+        Map<String, Object> menuMap = tokenService.getMenuRoute();
+        String moduleKey = ServiceConstants.FromSource.MULTI.getCode() + moduleId;
+        if (ObjectUtil.isNull(menuMap) || ObjectUtil.isNull(menuMap.get(moduleKey))) {
+            List<SysMenuDto> menus = baseService.getRoutes(moduleId);
+            if (ObjectUtil.isNull(menuMap)) menuMap = new HashMap<>();
+            menuMap.put(moduleKey, MRouteUtils.buildMenus(TreeUtil.buildTree(menus)));
+            tokenService.setMenuRoute(menuMap);
+        }
+        return success(menuMap.get(moduleKey));
+    }
+
+    /**
+     * 查询菜单列表
+     */
+    @Override
+    @GetMapping("/list")
+    @RequiresPermissions(Auth.SYS_MENU_LIST)
+    public AjaxResult list(SysMenuQuery menu) {
+        return super.list(menu);
+    }
+
+    /**
+     * 查询菜单列表（排除节点）
+     */
+    @GetMapping("/list/exclude")
+    @RequiresPermissions(Auth.SYS_MENU_LIST)
+    public AjaxResult listExNodes(SysMenuQuery menu) {
+        return super.listExNodes(menu);
+    }
+
+    /**
+     * 查询菜单详细
+     */
+    @Override
+    @GetMapping(value = "/{id}")
+    @RequiresPermissions(Auth.SYS_MENU_SINGLE)
+    public AjaxResult getInfo(@PathVariable Serializable id) {
+        return super.getInfo(id);
+    }
+
+    /**
+     * 根据菜单类型获取指定模块的可配菜单集
+     */
+    @PostMapping("/routeList")
+    public AjaxResult getMenuByMenuType(@RequestBody SysMenuDto menu) {
+        if (ObjectUtil.isNull(menu) || ObjectUtil.isNull(menu.getModuleId()) || ObjectUtil.isNull(menu.getMenuType()))
+            warn("请传入有效参数");
+        List<SysMenuDto> menus = baseService.getMenuByMenuType(menu.getModuleId(), menu.getMenuType());
+        return success(TreeUtil.buildTree((menus)));
+    }
+
+    /**
+     * 根据菜单类型获取指定模块的可配菜单集（排除节点）
+     */
+    @PostMapping("/routeList/exclude")
+    public AjaxResult getMenuByMenuTypeExNodes(@RequestBody SysMenuDto menu) {
+        if (ObjectUtil.isNull(menu) || ObjectUtil.isNull(menu.getModuleId()) || ObjectUtil.isNull(menu.getMenuType()))
+            warn("请传入有效参数");
+        List<SysMenuDto> menus = baseService.getMenuByMenuType(menu.getModuleId(), menu.getMenuType());
+        menus.removeIf(next -> ObjectUtil.equals(next.getId(), menu.getId()) || ArrayUtils.contains(StrUtil.splitToArray(next.getAncestors(), StrUtil.COMMA), menu.getId() + StrUtil.EMPTY));
+        return success(TreeUtil.buildTree((menus)));
+    }
+
+    /**
+     * 菜单新增
+     */
+    @Override
+    @PostMapping
+    @RequiresPermissions(Auth.SYS_MENU_ADD)
+    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
+    public AjaxResult add(@Validated({V_A.class}) @RequestBody SysMenuDto menu) {
+        return super.add(menu);
+    }
+
+    /**
+     * 菜单修改
+     */
+    @Override
+    @PutMapping
+    @RequiresPermissions(Auth.SYS_MENU_EDIT)
+    @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
+    public AjaxResult edit(@Validated({V_E.class}) @RequestBody SysMenuDto menu) {
+        return super.edit(menu);
+    }
+
+    /**
+     * 菜单修改状态
+     */
+    @Override
+    @PutMapping("/status")
+    @RequiresPermissions(value = {Auth.SYS_MENU_EDIT, Auth.SYS_MENU_ES}, logical = Logical.OR)
+    @Log(title = "菜单管理", businessType = BusinessType.UPDATE_STATUS)
+    public AjaxResult editStatus(@RequestBody SysMenuDto menu) {
+        return super.editStatus(menu);
+    }
+
+    /**
+     * 菜单批量删除
+     */
+    @Override
+    @DeleteMapping("/batch/{idList}")
+    @RequiresPermissions(Auth.SYS_MENU_DEL)
+    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
+    public AjaxResult batchRemove(@PathVariable List<Long> idList) {
+        return super.batchRemove(idList);
+    }
+
+    /**
+     * 获取菜单选择框列表
+     */
+    @Override
+    @GetMapping("/option")
+    public AjaxResult option() {
+        return super.option();
+    }
+
+    /**
+     * 前置校验 新增/修改
+     */
+    @Override
+    protected void AEHandle(BaseConstants.Operate operate, SysMenuDto menu) {
+        if (ObjectUtil.equals(menu.getId(), AuthorityConstants.MENU_TOP_NODE))
+            warn(StrUtil.format("默认{}不允许修改！", getNodeName()));
+        if (baseService.checkNameUnique(menu.getId(), menu.getParentId(), menu.getName()))
+            warn(StrUtil.format("{}{}{}失败，{}名称已存在！", operate.getInfo(), getNodeName(), menu.getTitle(), getNodeName()));
+
+        switch (operate) {
+            case ADD:
+            case ADD_FORCE:
+                break;
+            case EDIT:
+            case EDIT_FORCE:
+                SysMenuDto original = baseService.selectById(menu.getId());
+                menu.setIsCommon(original.getIsCommon());
+                if (ObjectUtil.isNull(original))
+                    warn("数据不存在！");
+                break;
+            default:
+        }
+
+
+        if (menu.isCommon()) {
+            if (SecurityUtils.isNotAdminTenant())
+                warn(StrUtil.format("{}{}{}失败，无操作权限！", operate.getInfo(), getNodeName(), menu.getTitle()));
+            SysModuleDto module = moduleService.selectById(menu.getModuleId());
+            if (ObjectUtil.isNull(module))
+                warn("数据不存在！");
+            if (module.isNotCommon())
+                warn(StrUtil.format("{}{}{}失败，公共{}必须挂载在公共{}下！", operate.getInfo(), getNodeName(), menu.getTitle(), getNodeName(), getParentName()));
+
+            SysMenuDto parentMenu = baseService.selectById(menu.getParentId());
+            if (ObjectUtil.isNull(parentMenu))
+                warn("数据不存在！");
+            if (parentMenu.isNotCommon())
+                warn(StrUtil.format("{}{}{}失败，公共{}必须挂载在公共{}下！", operate.getInfo(), getNodeName(), menu.getTitle(), getNodeName(), getNodeName()));
+        }
+    }
+
+    /**
+     * 前置校验 删除
+     */
+    protected void RHandle(BaseConstants.Operate operate, List<Long> idList) {
+        List<SysMenuDto> moduleList = baseService.selectListByIds(idList);
+        boolean isTenant = SecurityUtils.isAdminTenant();
+        Map<Long, SysMenuDto> moduleMap = moduleList.stream().filter(item -> isTenant || item.isNotCommon())
+                .collect(Collectors.toMap(SysMenuDto::getId, Function.identity()));
+        for (int i = idList.size() - 1; i >= 0; i--)
+            if (!moduleMap.containsKey(idList.get(i)) || ObjectUtil.equals(idList.get(i), AuthorityConstants.MENU_TOP_NODE))
+                idList.remove(i);
+        if (CollUtil.isEmpty(idList))
+            warn(StrUtil.format("无待删除{}！", getNodeName()));
+    }
+}

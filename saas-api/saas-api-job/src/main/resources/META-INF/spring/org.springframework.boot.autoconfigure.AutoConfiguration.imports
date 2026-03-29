@@ -1,0 +1,1 @@
+com.audit.job.api.feign.factory.RemoteJobLogFallbackFactory

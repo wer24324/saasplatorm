@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.audit.system.organize.mapper.SysTestMapper">
+
+    <select id="getRoleUser" resultType="com.audit.system.api.organize.domain.vo.SysRoleUserVO">
+        SELECT
+        sr.id roleId,
+        sr.NAME roleName,
+        su.*
+        FROM
+        sys_organize_role_merge sorm
+        LEFT JOIN sys_role sr ON sorm.role_id = sr.id
+        LEFT JOIN sys_user su ON sorm.user_id = su.id
+        WHERE
+        ( sorm.user_id IS NOT NULL
+        <if test="sysRoleUserReq.roleNameLike != null ">
+            AND sr.name LIKE '%${sysRoleUserReq.roleNameLike}%')
+        </if>
+        <if test="sysRoleUserReq.roleCodeLike != null ">
+            AND sr.code LIKE '%${sysRoleUserReq.roleCodeLike}%')
+        </if>
+        ORDER BY sr.id DESC
+        LIMIT ${sysRoleUserReq.offset}, ${sysRoleUserReq.size}
+    </select>
+
+</mapper>

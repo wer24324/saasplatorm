@@ -1,0 +1,24 @@
+package ${packageName}.manager.impl;
+
+#if($table.base)
+#set($Entity="Base")
+#elseif($table.tree)
+#set($Entity="Tree")
+#end
+import ${packageName}.domain.po.${ClassName}Po;
+import ${packageName}.domain.dto.${ClassName}Dto;
+import ${packageName}.domain.query.${ClassName}Query;
+import ${packageName}.domain.model.${ClassName}Converter;
+import ${packageName}.mapper.${ClassName}Mapper;
+import com.audit.common.web.entity.manager.impl.${Entity}BaseManagerImpl;
+import ${packageName}.manager.I${ClassName}Manager;
+import org.springframework.stereotype.Component;
+
+/**
+ * ${functionName}管理 数据封装层处理
+ *
+ * @author ${author}
+ */
+@Component
+public class ${ClassName}Manager extends ${Entity}ManagerImpl<${ClassName}Query, ${ClassName}Dto, ${ClassName}Po, ${ClassName}Mapper, ${ClassName}Converter> implements I${ClassName}Manager {
+}

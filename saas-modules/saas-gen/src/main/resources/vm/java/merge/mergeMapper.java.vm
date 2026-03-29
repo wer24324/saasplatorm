@@ -1,0 +1,14 @@
+package ${packageName}.mapper.merge;
+
+    ${sourceMode};
+import com.audit.common.web.entity.mapper.BasicMapper;
+import ${packageName}.domain.merge.${ClassName};
+
+/**
+ * ${functionName} 数据层
+ *
+ * @author ${author}
+ */
+@${sourceMode}
+public interface ${ClassName}Mapper extends BasicMapper<${ClassName}> {
+}

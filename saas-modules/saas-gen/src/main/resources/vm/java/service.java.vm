@@ -1,0 +1,18 @@
+package ${packageName}.service;
+
+#if($table.base)
+#set($Entity="Base")
+#elseif($table.tree)
+#set($Entity="Tree")
+#end
+import ${packageName}.domain.query.${ClassName}Query;
+import ${packageName}.domain.dto.${ClassName}Dto;
+import com.audit.common.web.entity.service.I${Entity}Service;
+
+/**
+ * ${functionName}管理 服务层
+ *
+ * @author ${author}
+ */
+public interface I${ClassName}Service extends I${Entity}Service<${ClassName}Query, ${ClassName}Dto> {
+}

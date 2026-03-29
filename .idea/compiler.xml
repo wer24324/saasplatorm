@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Annotation profile for saas" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
+        <module name="saas-modules-job" />
+        <module name="saas-common-swagger" />
+        <module name="saas-gateway" />
+        <module name="saas-modules-tenant" />
+        <module name="saas-common-seata" />
+        <module name="saas-auth" />
+        <module name="saas-modules-system" />
+        <module name="saas-common-datasource" />
+        <module name="saas-common-log" />
+        <module name="saas-api-tenant" />
+        <module name="saas-api-file" />
+        <module name="saas-api-job" />
+        <module name="saas-common-security" />
+        <module name="saas-common-datascope" />
+        <module name="saas-common-cache" />
+        <module name="saas-modules-file" />
+        <module name="saas-common-redis" />
+        <module name="saas-common-core" />
+        <module name="saas-visual-monitor" />
+        <module name="saas-modules-gen" />
+        <module name="saas-common-web" />
+        <module name="saas-api-system" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="saas-modules-thirdinterface" target="8" />
+      <module name="saas-thirdinterface" target="8" />
+      <module name="saas-thirdinterface.main" target="1.8" />
+      <module name="saas-thirdinterface.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

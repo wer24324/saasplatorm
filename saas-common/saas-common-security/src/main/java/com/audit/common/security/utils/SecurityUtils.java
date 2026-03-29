@@ -1,0 +1,107 @@
+package com.audit.common.security.utils;
+
+import com.audit.common.core.constant.system.AuthorityConstants;
+import com.audit.common.core.utils.core.SpringUtil;
+import com.audit.common.core.utils.core.StrUtil;
+import com.audit.common.security.service.TokenService;
+import com.audit.common.security.utils.base.BaseSecurityUtils;
+import com.audit.system.api.model.DataScope;
+import com.audit.system.api.model.LoginUser;
+import com.audit.system.api.model.Source;
+import com.audit.system.api.organize.domain.dto.SysEnterpriseDto;
+import com.audit.system.api.organize.domain.dto.SysUserDto;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+/**
+ * 管理端 - 权限获取工具类
+ *
+ * @author zerozhang
+ */
+public class SecurityUtils extends BaseSecurityUtils {
+
+    /**
+     * 获取企业信息
+     */
+    public static SysEnterpriseDto getEnterprise() {
+        return SpringUtil.getBean(TokenService.class).getEnterprise();
+    }
+
+    /**
+     * 获取用户信息
+     */
+    public static SysUserDto getUser() {
+        return SpringUtil.getBean(TokenService.class).getUser();
+    }
+
+    /**
+     * 获取源策略信息
+     */
+    public static Source getSource() {
+        return SpringUtil.getBean(TokenService.class).getSource();
+    }
+
+    /**
+     * 获取数据权限信息
+     */
+    public static DataScope getDataScope() {
+        return SpringUtil.getBean(TokenService.class).getDataScope();
+    }
+
+    /**
+     * 获取登录用户信息
+     */
+    public static LoginUser getLoginUser() {
+        return SpringUtil.getBean(TokenService.class).getLoginUser();
+    }
+
+    /**
+     * 是否为超管租户
+     */
+    public static boolean isAdminTenant() {
+        return StrUtil.equals(AuthorityConstants.TenantType.ADMIN.getCode(), getIsLessor());
+    }
+
+    /**
+     * 是否不为超管租户
+     */
+    public static boolean isNotAdminTenant() {
+        return !isAdminTenant();
+    }
+
+    /**
+     * 是否为超管用户
+     */
+    public static boolean isAdminUser() {
+        return StrUtil.equals(AuthorityConstants.UserType.ADMIN.getCode(), getUserType());
+    }
+
+    /**
+     * 是否不为超管用户
+     */
+    public static boolean isNotAdminUser() {
+        return !isAdminUser();
+    }
+
+    /**
+     * 生成BCryptPasswordEncoder密码
+     *
+     * @param password 密码
+     * @return 加密字符串
+     */
+    public static String encryptPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
+    }
+
+    /**
+     * 判断密码是否相同
+     *
+     * @param rawPassword     真实密码
+     * @param encodedPassword 加密后字符
+     * @return 结果
+     */
+    public static boolean matchesPassword(String rawPassword, String encodedPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+}

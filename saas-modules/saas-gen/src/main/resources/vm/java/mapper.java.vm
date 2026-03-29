@@ -1,0 +1,21 @@
+package ${packageName}.mapper;
+
+#if($table.base)
+#set($Entity="Base")
+#elseif($table.tree)
+#set($Entity="Tree")
+#end
+import ${packageName}.domain.query.${ClassName}Query;
+import ${packageName}.domain.dto.${ClassName}Dto;
+import ${packageName}.domain.po.${ClassName}Po;
+import com.audit.common.web.entity.mapper.${Entity}Mapper;
+    ${sourceMode};
+
+/**
+ * ${functionName}管理 数据层
+ *
+ * @author ${author}
+ */
+@${sourceMode}
+public interface ${ClassName}Mapper extends ${Entity}Mapper<${ClassName}Query, ${ClassName}Dto, ${ClassName}Po> {
+}
